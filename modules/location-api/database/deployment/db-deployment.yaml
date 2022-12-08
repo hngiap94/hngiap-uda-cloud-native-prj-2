@@ -1,0 +1,86 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: location-postgres-volume
+  labels:
+    type: local
+    app: location-postgres
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 256Mi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/mnt/data/location"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: location-postgres-pv-claim
+  labels:
+    app: location-postgres
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: location-postgres
+  template:
+    metadata:
+      labels:
+        app: location-postgres
+    spec:
+      containers:
+        - name: location-postgres
+          image: postgis/postgis:12-2.5-alpine
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: location-db-configmap
+                key: DB_USERNAME
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: location-db-secret
+                key: DB_PASSWORD
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: location-db-configmap
+                key: DB_NAME
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: locationdb
+      volumes:
+        - name: locationdb
+          persistentVolumeClaim:
+            claimName: location-postgres-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: location-postgres
+  labels:
+    app: location-postgres
+spec:
+  type: NodePort
+  selector:
+    app: location-postgres
+  ports:
+   - port: 5432

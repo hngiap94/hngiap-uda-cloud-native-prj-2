@@ -1,0 +1,10 @@
+# Generate grpc items
+python -m grpc_tools.protoc -I./ --python_out=./ --grpc_python_out=./ location-event.proto
+
+# Build and push docker images
+docker login
+docker build -t hngiap94/udaconnect-location-producer-api:latest .
+docker push hngiap94/udaconnect-location-producer-api:latest
+
+# Deploy k8s
+kubectl apply -f deployment/

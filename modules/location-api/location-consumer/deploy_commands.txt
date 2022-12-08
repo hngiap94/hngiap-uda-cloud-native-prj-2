@@ -1,0 +1,7 @@
+# Build and push docker images
+docker login
+docker build -t hngiap94/udaconnect-person-api:latest .
+docker push hngiap94/udaconnect-person-api:latest
+# Deploy k8s
+kubectl apply -f deployment/
+# Init database

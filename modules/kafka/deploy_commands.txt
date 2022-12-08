@@ -1,0 +1,5 @@
+# References
+https://dzone.com/articles/how-to-deploy-apache-kafka-with-kubernetes
+# Run kafka k8s
+kubectl apply -f deployment/01-zookeeper.yaml
+kubectl apply -f deployment/02-kafka.yaml

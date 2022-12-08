@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: location-producer-api
+  name: location-producer-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: location-producer-api
+  template:
+    metadata:
+      labels:
+        app: location-producer-api
+    spec:
+      containers:
+      - name: udaconnect-location-producer-api
+        image: hngiap94/udaconnect-location-producer-api:latest
+        imagePullPolicy: Always
+        env:
+        - name: KAFKA_TOPIC
+          valueFrom:
+            configMapKeyRef:
+              name: location-producer-api-configmap
+              key: KAFKA_TOPIC
+        - name: KAFKA_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: location-producer-api-configmap
+              key: KAFKA_SERVER
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: location-producer-api
+  name: location-producer-api-service
+spec:
+  ports:
+  - name: location-producer-api-service-port
+    port: 5005
+    targetPort: 5005
+    nodePort: 30003
+  selector:
+    app: location-producer-api
+  type: NodePort

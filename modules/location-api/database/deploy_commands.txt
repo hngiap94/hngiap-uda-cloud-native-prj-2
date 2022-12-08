@@ -1,0 +1,4 @@
+# Deploy k8s
+kubectl apply -f deployment/
+# Init database
+sh scripts/run_db_command.sh location-postgres-76bb87c977-zf4rw

@@ -1,0 +1,8 @@
+# Build and push docker images
+docker login
+docker build -t hngiap94/udaconnect-person-api:latest .
+docker push hngiap94/udaconnect-person-api:latest
+# Deploy k8s
+kubectl apply -f deployment/
+# Init database
+sh scripts/run_db_command.sh person-postgres-774c6c9cbf-ltmpc

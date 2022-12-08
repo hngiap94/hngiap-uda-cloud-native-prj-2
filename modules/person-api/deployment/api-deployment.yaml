@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: person-api
+  name: person-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: person-api
+  template:
+    metadata:
+      labels:
+        app: person-api
+    spec:
+      containers:
+      - name: udaconnect-person-api
+        image: hngiap94/udaconnect-person-api:latest
+        imagePullPolicy: Always
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: person-api-configmap
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: person-api-secret
+              key: DB_PASSWORD
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: person-api-configmap
+              key: DB_NAME
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: person-api-configmap
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: person-api-configmap
+              key: DB_PORT
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: person-api
+  name: person-api-service
+spec:
+  ports:
+  - name: person-api-service-port
+    port: 5000
+    targetPort: 5000
+    nodePort: 30001
+  selector:
+    app: person-api
+  type: NodePort
