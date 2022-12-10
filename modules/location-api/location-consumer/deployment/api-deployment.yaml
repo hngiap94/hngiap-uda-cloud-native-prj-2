@@ -2,23 +2,38 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: connection-api
-  name: connection-api
+    app: location-consumer-api
+  name: location-consumer-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: connection-api
+      app: location-consumer-api
   template:
     metadata:
       labels:
-        app: connection-api
+        app: location-consumer-api
     spec:
       containers:
-      - name: udaconnect-connection-api
-        image: hngiap94/udaconnect-connection-api:latest
+      - name: udaconnect-location-consumer-api
+        image: hngiap94/udaconnect-location-consumer-api:latest
         imagePullPolicy: Always
         env:
+        - name: KAFKA_TOPIC
+          valueFrom:
+            configMapKeyRef:
+              name: kafka-configmap
+              key: KAFKA_TOPIC
+        - name: KAFKA_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: kafka-configmap
+              key: KAFKA_SERVER
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: location-db-configmap
+              key: DB_NAME
         - name: DB_USERNAME
           valueFrom:
             configMapKeyRef:
@@ -29,11 +44,6 @@ spec:
             secretKeyRef:
               name: location-db-secret
               key: DB_PASSWORD
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: location-db-configmap
-              key: DB_NAME
         - name: DB_HOST
           valueFrom:
             configMapKeyRef:
@@ -44,11 +54,6 @@ spec:
             configMapKeyRef:
               name: location-db-configmap
               key: DB_PORT
-        - name: PERSON_SERVICE_URL
-          valueFrom:
-            configMapKeyRef:
-              name: connection-api-configmap
-              key: PERSON_SERVICE_URL
         - name: PYTHONUNBUFFERED
           value: '0'
 ---
@@ -56,14 +61,13 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: connection-api
-  name: connection-api-service
+    app: location-consumer-api
+  name: location-consumer-api-service
 spec:
   ports:
-  - name: connection-api-service-port
-    port: 5000
-    targetPort: 5000
-    nodePort: 30002
+  - name: location-consumer-api-service-port
+    port: 9092
+    targetPort: 9092
   selector:
-    app: connection-api
+    app: location-consumer-api
   type: NodePort

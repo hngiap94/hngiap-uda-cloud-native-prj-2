@@ -6,6 +6,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-EXPOSE 5005
-
 CMD ["python", "main.py"]

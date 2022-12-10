@@ -22,8 +22,8 @@ class LocationEventServicer(location_event_pb2_grpc.LocationEventServiceServicer
 
         request_value = {
             "userId": int(request.userId),
-            "coordinateX": int(request.coordinateX),
-            "coordinateY": int(request.coordinateY)
+            "latitude": int(request.latitude),
+            "longitude": int(request.longitude)
         }
         print(request_value)
 

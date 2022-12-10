@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14location-event.proto\"P\n\x14LocationEventMessage\x12\x0e\n\x06userId\x18\x01 \x01(\x05\x12\x13\n\x0b\x63oordinateX\x18\x02 \x01(\x05\x12\x13\n\x0b\x63oordinateY\x18\x03 \x01(\x05\x32N\n\x14LocationEventService\x12\x36\n\x06\x43reate\x12\x15.LocationEventMessage\x1a\x15.LocationEventMessageb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14location-event.proto\"K\n\x14LocationEventMessage\x12\x0e\n\x06userId\x18\x01 \x01(\x05\x12\x10\n\x08latitude\x18\x02 \x01(\x05\x12\x11\n\tlongitude\x18\x03 \x01(\x05\x32N\n\x14LocationEventService\x12\x36\n\x06\x43reate\x12\x15.LocationEventMessage\x1a\x15.LocationEventMessageb\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'location_event_pb2', globals())
@@ -21,7 +21,7 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _LOCATIONEVENTMESSAGE._serialized_start=24
-  _LOCATIONEVENTMESSAGE._serialized_end=104
-  _LOCATIONEVENTSERVICE._serialized_start=106
-  _LOCATIONEVENTSERVICE._serialized_end=184
+  _LOCATIONEVENTMESSAGE._serialized_end=99
+  _LOCATIONEVENTSERVICE._serialized_start=101
+  _LOCATIONEVENTSERVICE._serialized_end=179
 # @@protoc_insertion_point(module_scope)

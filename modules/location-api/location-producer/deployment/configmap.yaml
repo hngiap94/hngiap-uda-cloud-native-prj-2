@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: location-producer-api-configmap
-data:
-  KAFKA_TOPIC: 'locations'
-  KAFKA_SERVER: 'kafka-service.default.svc.cluster.local:9092'

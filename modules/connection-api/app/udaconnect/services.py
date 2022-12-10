@@ -7,7 +7,10 @@ from app.udaconnect.models import Connection, Location, Person
 from geoalchemy2.functions import ST_AsText, ST_Point
 from sqlalchemy.sql import text
 
-logging.basicConfig(level=logging.WARNING)
+import requests
+from app.config import PERSON_SERVICE_URL
+
+logging.basicConfig(filename='app.log', level=logging.INFO)
 logger = logging.getLogger("udaconnect-api")
 
 
@@ -78,3 +81,26 @@ class ConnectionService:
                 )
 
         return result
+
+class PersonService:
+    @staticmethod
+    def retrieve_all() -> List[Person]:
+        persons = []
+
+        # logging.info('PERSON_SERVICE_URL: ', PERSON_SERVICE_URL)
+        datas = requests.get(PERSON_SERVICE_URL + "api/persons")
+        datas = datas.json()
+
+        # logging.info('datas:', datas)
+
+        for data in datas:
+            # logging.info(data)
+            person = Person(
+                id = data['id'],
+                first_name = data['first_name'],
+                last_name = data['last_name'],
+                company_name = data['company_name']
+            )
+            persons.append(person)
+
+        return persons
