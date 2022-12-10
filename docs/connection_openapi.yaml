@@ -1,0 +1,87 @@
+openapi: 3.0.0
+info:
+  description: APIs to interact with Connection microservice
+  version: "1.0.0"
+  title: Connection API
+paths:
+  /api/persons/{person_id}/connection:
+    get:
+      summary: Retrieve all person's connection by person id
+      operationId: getPersonConnections
+      description: By passing in a person_id in path and start_date, end_date, distance in query you can retrieve the person's connection
+      parameters:
+        - in: path
+          name: person_id
+          schema:
+            type: string
+          required: true
+          description: ID of the person to get
+        - in: query
+          name: start_date
+          schema:
+            type: string
+          required: true
+          description: Lower bound of date range
+        - in: query
+          name: end_date
+          schema:
+            type: string
+          required: true
+          description: Upper bound of date range
+        - in: query
+          name: distance
+          schema:
+            type: string
+          required: true
+          description: Proximity to a given user in meters
+      responses:
+        '200':
+          description: Successfully retrieved all person's connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connection'
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    Connection:
+      type: object
+      properties:
+        person:
+          $ref: '#/components/schemas/Person'
+        location:
+          $ref: '#/components/schemas/Location'
+    Person:
+      type: object
+      properties:
+        company_name:
+         type: string
+         example: "Udaconnect"
+        last_name:
+          type: string
+          example: "Giap"
+        first_name:
+          type: string
+          example: "Hoang Nghia"
+        id:
+          type: integer
+          example: 1
+    Location:
+      type: object
+      properties:
+        person_id:
+         type: integer
+         example: 1
+        latitude:
+          type: string
+          example: "-122.290883"
+        longitude:
+          type: string
+          example: "37.55363"
+        id:
+          type: integer
+          example: 34
+        creation_time:
+          type: string
+          example: "2020-07-07T10:37:06"

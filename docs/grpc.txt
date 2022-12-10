@@ -1,0 +1,12 @@
+- Using the template provided in sample gRPC client at modules/location-api/location-producer/writer.py
+- writer.py application will send sample payloads to location producer microservice using gRPC strategy , the protobuf request messages's format is as follow:
+
+message LocationEventMessage {
+  int32 userId = 1;
+  int32 latitude = 2;
+  int32 longitude = 3;
+}
+
+service LocationEventService {
+  rpc Create(LocationEventMessage) returns (LocationEventMessage);
+}

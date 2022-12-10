@@ -1,0 +1,4 @@
+Message passing stratergies decisions:
+- gRPC: Since location data from users's mobile devices send to Udaconnect application frequently and provide heavy loads to application, we will use gRPC message passing stratergy in order to improve better security and performance.
+- Kafka: As mentioned aboved, location data provide heavy loads to application. We use Kafka to handle large volumes of location data and also provide good performance, decoupled systems.
+- REST APIs: We choose REST APIs for communications from client to servers and also from service to service because they provide a great deal of flexibility. Data is not tied to resources or methods, so REST can handle multiple types of calls, return different data formats and even change structurally with the correct implementation of hypermedia. 

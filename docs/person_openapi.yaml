@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  description: APIs to interact with Person microservice
+  version: "1.0.0"
+  title: Person API
+paths:
+  /api/persons:
+    get:
+      summary: Retrieve all persons
+      operationId: getPersons
+      description: Retrieve all persons of Udaconnect application
+      responses:
+        '200':
+          description: Successfully retrieved all persons's informations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '500':
+          description: Internal Server Error
+    post:
+      summary: Create new person
+      operationId: createPerson
+      description: Create new person to Udaconnect application
+      responses:
+        '200':
+          description: Successfully created new person
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '500':
+          description: Internal Server Error
+  /api/person/{person_id}:
+    get:
+      summary: Retrieve a person
+      operationId: getPerson
+      description: By passing person_id you can retrieve a person's information
+      parameters:
+        - in: path
+          name: person_id
+          schema:
+            type: integer
+          required: true
+          description: ID of the person to get
+      responses:
+        '200':
+          description: Successfully retrieved a person's information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    Person:
+      type: object
+      required:
+        - company_name
+        - last_name
+        - first_name
+        - id
+      properties:
+        company_name:
+         type: string
+         example: "Udaconnect"
+        last_name:
+          type: string
+          example: "Giap"
+        first_name:
+          type: string
+          example: "Hoang Nghia"
+        id:
+          type: integer
+          example: 1
